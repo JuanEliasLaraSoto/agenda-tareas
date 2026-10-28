@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# base de datos local: cada entorno tiene la suya
+*.db

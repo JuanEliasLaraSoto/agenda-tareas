@@ -1,0 +1,4 @@
+cargar coche
+limpiar casa
+formar grupo
+prueba persistencia
