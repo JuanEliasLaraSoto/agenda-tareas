@@ -1,0 +1,113 @@
+# ===== FLUJO BÁSICO DE GIT =====
+
+# Se hace UNA sola vez por proyecto: crea el repositorio
+git init
+
+# Crear el .gitignore (archivo de texto, con ese nombre exacto, en la raíz)
+# [OJO] Hazlo ANTES del primer "git add ."
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# base de datos local: cada entorno tiene la suya
+*.db
+
+# [FALTA] Decidir qué hacer con tareas.txt y tareas-2.txt.
+#   Si no quieres subirlos, añade esta línea al .gitignore:
+#   tareas*.txt
+
+# Ver qué ha cambiado y qué está preparado (úsalo antes de cada add)
+git status
+
+# Preparar todos los cambios para el commit (o: git add archivo.py)
+git add .
+
+# Guardar la "foto" con un mensaje que explique lo que hiciste
+git commit -m "Primer commit: ejercicios de Python y API de tareas"
+
+# Comprobar que no queda nada pendiente ("nothing to commit")
+git status
+
+# Ver el historial de commits
+git log
+
+
+# ===== SUBIR A GITHUB =====
+
+# [FALTA] Antes: crear el repositorio vacío en github.com (New repository).
+#   NO marcar README, .gitignore ni licencia.
+
+# Conectar tu carpeta con el repositorio de GitHub (UNA sola vez)
+git remote add origin https://github.com/JuanEliasLaraSoto/practicando-python.git
+
+# [FALTA] Comprobar que quedó bien guardado
+git remote -v
+
+# [FALTA] Si sale "remote origin already exists":
+#   corrige la URL con:   git remote set-url origin <url>
+#   o bórralo con:        git remote remove origin
+
+# Renombrar la rama principal a "main" (nombre estándar en GitHub)
+git branch -M main
+
+# Subir los commits. El -u recuerda el destino: luego basta con "git push"
+git push -u origin main
+
+# [FALTA] Comprobar en la web que aparecen tus archivos
+#   y que tareas.db NO está.
+
+# ----- ALTERNATIVA OPCIONAL con gh (GitHub CLI) -----
+# [OJO] gh NO está instalado en tu equipo. Instálalo con:
+#   winget install --id GitHub.cli
+# Cierra y abre la terminal y comprueba: gh --version
+gh auth login                                  # iniciar sesión una vez
+gh repo create practicando-python --private --source=. --push
+# [OJO] Esto REEMPLAZA a "remote add" + "push". No ejecutes las dos
+#   formas con el mismo repositorio o te dará el error de "already exists".
+
+
+# ===== CICLO DIARIO (se repite) =====
+# 1. Modificas archivos
+# 2. git status        (qué cambió)
+# 2b. [FALTA] git diff (ver las líneas exactas que cambiaron)
+# 3. git add .
+# 4. git commit -m "Lo que hice"
+# 5. [FALTA] git push  (subir a GitHub; sin esto solo está en tu PC)
+
+
+# ===== DESHACER COSAS [FALTA] =====
+# Recuperar un archivo borrado o con cambios sin guardar:
+#   git restore main.py
+# Dejar de seguir un archivo que ya subiste (sin borrarlo de tu disco):
+#   git rm --cached tareas.txt
+
+
+# ===== DESPLEGAR LA API [FALTA TODO] =====
+# 1. Crear requirements.txt con una librería por línea:
+#      fastapi
+#      uvicorn
+# 2. Probarlo en un entorno limpio:
+#      python -m venv prueba
+#      prueba\Scripts\activate
+#      pip install -r requirements.txt
+#      uvicorn main:app
+# 3. Añadir "prueba/" al .gitignore
+# 4. git add / commit / push del requirements.txt
+# 5. Crear cuenta en Render (con tu GitHub) -> New -> Web Service
+#      Build command: pip install -r requirements.txt
+#      Start command: uvicorn main:app --host 0.0.0.0 --port $PORT
+# 6. Abrir https://TU-SERVICIO.onrender.com/docs y probar
+# 7. Cambiar la URL de cliente.py a la pública
+# [OJO] tareas.db no se despliega (está en .gitignore): el servidor
+#   empieza con la base de datos vacía. Y puede perderse al reiniciar.
+
+
+# ===== NOTAS =====
+# - Lo que está en .gitignore no aparece en git status ni se sube.
+# - .gitignore solo afecta a archivos que Git todavía no sigue.
+# - commit = foto local; push = subirla a GitHub.
+# - Comprobar identidad: git config user.name / git config user.email
+# - [OJO] Tu carpeta está en OneDrive: puede dar conflictos con .git.
+#   A largo plazo, guarda los repositorios fuera de OneDrive.
